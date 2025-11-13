@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiblioTech </title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <div class="logo-text">
+                        <h1 href="#">BiblioTech</h1>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <div>
+                            <span class="stat-number" id="totalLibros">0</span>
+                            <span class="stat-label">Libros</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-pen"></i>
+                        <div>
+                            <span class="stat-number" id="totalAutores">0</span>
+                            <span class="stat-label">Autores</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <span class="stat-number" id="totalUsuarios">0</span>
+                            <span class="stat-label">Usuarios</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hand-holding-hand"></i>
+                        <div>
+                            <span class="stat-number" id="prestamosActivos">0</span>
+                            <span class="stat-label">Préstamos</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tags"></i>
+                        <div>
+                            <span class="stat-number" id="totalCategorias">0</span>
+                            <span class="stat-label">Categorías</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <span class="stat-number" id="totalResenas">0</span>
+                            <span class="stat-label">Reseñas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container">
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-list" id="navList">
+                <li><a href="#" class="nav-link active" data-section="libros">
+                    <i class="fas fa-book"></i> <span>Libros</span>
+                </a></li>
+                <li><a href="#" class="nav-link" data-section="autores">
+                    <i class="fas fa-user-pen"></i> <span>Autores</span>
+                </a></li>
+                <li><a href="#" class="nav-link" data-section="usuarios">
+                    <i class="fas fa-users"></i> <span>Usuarios</span>
+                </a></li>
+                <li><a href="#" class="nav-link" data-section="prestamos">
+                    <i class="fas fa-hand-holding-hand"></i> <span>Préstamos</span>
+                </a></li>
+                <li><a href="#" class="nav-link" data-section="categorias">
+                    <i class="fas fa-tags"></i> <span>Categorías</span>
+                </a></li>
+                <li><a href="#" class="nav-link" data-section="resenas">
+                    <i class="fas fa-star"></i> <span>Reseñas</span>
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="container">
+            <!-- SECCIÓN LIBROS -->
+            <section id="section-libros" class="section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Gestión de Libros</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalLibro')">
+                        <i class="fas fa-plus"></i> <span>Agregar</span>
+                    </button>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchLibros" placeholder="Buscar libros...">
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoría</th>
+                                <th>ISBN</th>
+                                <th>Año</th>
+                                <th>Págs.</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaLibros">
+                            <tr><td colspan="9" class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN AUTORES -->
+            <section id="section-autores" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-pen"></i> Gestión de Autores</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalAutor')">
+                        <i class="fas fa-plus"></i> <span>Agregar</span>
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchAutores" placeholder="Buscar autores...">
+                </div>
+
+                <div class="cards-grid" id="autoresGrid">
+                    <div class="loading-card"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN USUARIOS -->
+            <section id="section-usuarios" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Gestión de Usuarios</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalUsuario')">
+                        <i class="fas fa-plus"></i> <span>Agregar</span>
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchUsuarios" placeholder="Buscar usuarios...">
+                </div>
+
+                <div class="cards-grid" id="usuariosGrid">
+                    <div class="loading-card"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN PRÉSTAMOS -->
+            <section id="section-prestamos" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-hand-holding-hand"></i> Gestión de Préstamos</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalPrestamo')">
+                        <i class="fas fa-plus"></i> <span>Nuevo</span>
+                    </button>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Todos</button>
+                    <button class="filter-tab" data-filter="active">Activos</button>
+                    <button class="filter-tab" data-filter="returned">Devueltos</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Libro</th>
+                                <th>Usuario</th>
+                                <th>Préstamo</th>
+                                <th>Devolución</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaPrestamos">
+                            <tr><td colspan="7" class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CATEGORÍAS -->
+            <section id="section-categorias" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tags"></i> Gestión de Categorías</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalCategoria')">
+                        <i class="fas fa-plus"></i> <span>Agregar</span>
+                    </button>
+                </div>
+
+                <div class="cards-grid cards-grid-categories" id="categoriasGrid">
+                    <div class="loading-card"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN RESEÑAS -->
+            <section id="section-resenas" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> Gestión de Reseñas</h2>
+                    <button class="btn btn-primary" onclick="openModal('modalResena')">
+                        <i class="fas fa-plus"></i> <span>Agregar</span>
+                    </button>
+                </div>
+
+                <div class="cards-grid" id="resenasGrid">
+                    <div class="loading-card"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-book-open"></i> BiblioTech</h3>
+                    <p>Sistema de gestión bibliotecaria moderno, completo y profesional</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Módulos</h4>
+                    <ul>
+                        <li><a href="#">Libros</a></li>
+                        <li><a href="#">Autores</a></li>
+                        <li><a href="#">Usuarios</a></li>
+                        <li><a href="#">Préstamos</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Reseñas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> info@bibliotech.com</p>
+                    <p><i class="fas fa-phone"></i> +54 381 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Concepción, Tucumán</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BiblioTech. Segundo Parcial - Programación Web - 6 Tablas Relacionadas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALES -->
+    
+    <!-- Modal Libro -->
+    <div id="modalLibro" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-book"></i> <span id="tituloModalLibro">Agregar Libro</span></h3>
+                <button class="close-btn" onclick="closeModal('modalLibro')">&times;</button>
+            </div>
+            <form id="formLibro">
+                <input type="hidden" id="libroId">
+                <div class="form-group">
+                    <label for="libroTitulo"><i class="fas fa-heading"></i> Título</label>
+                    <input type="text" id="libroTitulo" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="libroAutor"><i class="fas fa-user"></i> Autor</label>
+                        <select id="libroAutor" required>
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="libroCategoria"><i class="fas fa-tag"></i> Categoría</label>
+                        <select id="libroCategoria" required>
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="libroISBN"><i class="fas fa-barcode"></i> ISBN</label>
+                        <input type="text" id="libroISBN" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="libroAño"><i class="fas fa-calendar"></i> Año</label>
+                        <input type="number" id="libroAño" min="1000" max="2025" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="libroPaginas"><i class="fas fa-file"></i> Número de Páginas</label>
+                    <input type="number" id="libroPaginas" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="libroDisponible" checked>
+                        <span>Disponible para préstamo</span>
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalLibro')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Autor -->
+    <div id="modalAutor" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-pen"></i> <span id="tituloModalAutor">Agregar Autor</span></h3>
+                <button class="close-btn" onclick="closeModal('modalAutor')">&times;</button>
+            </div>
+            <form id="formAutor">
+                <input type="hidden" id="autorId">
+                <div class="form-group">
+                    <label for="autorNombre"><i class="fas fa-user"></i> Nombre Completo</label>
+                    <input type="text" id="autorNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="autorNacionalidad"><i class="fas fa-flag"></i> Nacionalidad</label>
+                    <input type="text" id="autorNacionalidad" required>
+                </div>
+                <div class="form-group">
+                    <label for="autorFecha"><i class="fas fa-calendar"></i> Fecha de Nacimiento</label>
+                    <input type="date" id="autorFecha" required>
+                </div>
+                <div class="form-group">
+                    <label for="autorBiografia"><i class="fas fa-align-left"></i> Biografía</label>
+                    <textarea id="autorBiografia" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalAutor')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Usuario -->
+    <div id="modalUsuario" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-users"></i> <span id="tituloModalUsuario">Agregar Usuario</span></h3>
+                <button class="close-btn" onclick="closeModal('modalUsuario')">&times;</button>
+            </div>
+            <form id="formUsuario">
+                <input type="hidden" id="usuarioId">
+                <div class="form-group">
+                    <label for="usuarioNombre"><i class="fas fa-user"></i> Nombre Completo</label>
+                    <input type="text" id="usuarioNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="usuarioEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="usuarioEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="usuarioTelefono"><i class="fas fa-phone"></i> Teléfono</label>
+                    <input type="tel" id="usuarioTelefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="usuarioDireccion"><i class="fas fa-map-marker-alt"></i> Dirección</label>
+                    <input type="text" id="usuarioDireccion" required>
+                </div>
+                <div class="form-group">
+                    <label for="usuarioFechaRegistro"><i class="fas fa-calendar"></i> Fecha de Registro</label>
+                    <input type="date" id="usuarioFechaRegistro" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalUsuario')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Préstamo -->
+    <div id="modalPrestamo" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-hand-holding-hand"></i> Nuevo Préstamo</h3>
+                <button class="close-btn" onclick="closeModal('modalPrestamo')">&times;</button>
+            </div>
+            <form id="formPrestamo">
+                <div class="form-group">
+                    <label for="prestamoLibro"><i class="fas fa-book"></i> Libro</label>
+                    <select id="prestamoLibro" required>
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prestamoUsuario"><i class="fas fa-user"></i> Usuario</label>
+                    <select id="prestamoUsuario" required>
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prestamoFecha"><i class="fas fa-calendar"></i> Fecha Préstamo</label>
+                        <input type="date" id="prestamoFecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prestamoFechaDevolucion"><i class="fas fa-calendar-check"></i> Devolución Esperada</label>
+                        <input type="date" id="prestamoFechaDevolucion" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalPrestamo')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Categoría -->
+    <div id="modalCategoria" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-tags"></i> <span id="tituloModalCategoria">Agregar Categoría</span></h3>
+                <button class="close-btn" onclick="closeModal('modalCategoria')">&times;</button>
+            </div>
+            <form id="formCategoria">
+                <input type="hidden" id="categoriaId">
+                <div class="form-group">
+                    <label for="categoriaNombre"><i class="fas fa-tag"></i> Nombre</label>
+                    <input type="text" id="categoriaNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoriaDescripcion"><i class="fas fa-align-left"></i> Descripción</label>
+                    <textarea id="categoriaDescripcion" rows="3" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalCategoria')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Reseña -->
+    <div id="modalResena" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-star"></i> <span id="tituloModalResena">Agregar Reseña</span></h3>
+                <button class="close-btn" onclick="closeModal('modalResena')">&times;</button>
+            </div>
+            <form id="formResena">
+                <input type="hidden" id="resenaId">
+                <div class="form-group">
+                    <label for="resenaLibro"><i class="fas fa-book"></i> Libro</label>
+                    <select id="resenaLibro" required>
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="resenaUsuario"><i class="fas fa-user"></i> Usuario</label>
+                    <select id="resenaUsuario" required>
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="resenaCalificacion"><i class="fas fa-star"></i> Calificación</label>
+                    <select id="resenaCalificacion" required>
+                        <option value="">Seleccione...</option>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 estrellas)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 estrellas)</option>
+                        <option value="3">⭐⭐⭐ (3 estrellas)</option>
+                        <option value="2">⭐⭐ (2 estrellas)</option>
+                        <option value="1">⭐ (1 estrella)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="resenaComentario"><i class="fas fa-comment"></i> Comentario</label>
+                    <textarea id="resenaComentario" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="resenaFecha"><i class="fas fa-calendar"></i> Fecha</label>
+                    <input type="date" id="resenaFecha" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalResena')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
