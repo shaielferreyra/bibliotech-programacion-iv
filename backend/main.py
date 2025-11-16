@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os 
 import sqlite3
 
 app = FastAPI()
@@ -15,7 +18,24 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Montar archivos estáticos
+frontend_path = os.path.join(os.path.dirname(__file__), "../frontend")
+if os.path.exists(frontend_path):
+    app.mount("/static", StaticFiles(directory=frontend_path), name="static")
 
+# Ruta para servir el HTML principal
+@app.get("/app")
+async def serve_app():
+    return FileResponse(os.path.join(frontend_path, "index.html"))
+
+# Ruta raíz redirige a /app
+@app.get("/")
+def root():
+    return {
+        "message": "API de Biblioteca Completa - FastAPI + SQLite - 6 Tablas",
+        "frontend": "/app",
+        "docs": "/docs"
+    }
 # ==================== MODELOS PYDANTIC ====================
 # Definición de los modelos de datos utilizando Pydantic
 class Categoria(BaseModel):
@@ -682,4 +702,6 @@ def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

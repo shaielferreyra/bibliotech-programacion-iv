@@ -1,6 +1,8 @@
-// Configuración de la API
-const API_URL = 'http://localhost:8000';
 
+// Configuración de la API - funciona en desarrollo y producción
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:8000' 
+    : window.location.origin;
 // Variables globales
 let autores = [];
 let libros = [];
