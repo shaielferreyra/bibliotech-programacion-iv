@@ -1,8 +1,8 @@
 
-// Configuración de la API - funciona en desarrollo y producción
+// Esta línea detecta automáticamente si estás en desarrollo o producción
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:8000' 
-    : window.location.origin;
+    : 'https://bibliotech-0eo9.onrender.com/'; // Lo cambiaremos después
 // Variables globales
 let autores = [];
 let libros = [];
